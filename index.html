@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IMAM GAZZALI MODEL ACADEMY</title>
@@ -87,7 +88,7 @@ td{
 <input type="text" id="searchName" placeholder="Enter Student Name">
 
 <button onclick="searchStudent()">Search</button>
-    <button onclick="downloadPDF()">Download PDF Report</button>
+    <button onclick="downloadPDF()">Download Professional PDF Mark Sheet</button>
 
 <div id="result"></div>
 
@@ -306,12 +307,15 @@ result.innerHTML=`
 </div>
 `;
 }
-    function downloadPDF() {
 
-let name=document.getElementById("searchName").value.trim().toLowerCase();
+async function downloadPDF() {
 
-let student=students.find(
-s=>s.name.toLowerCase()===name
+const { jsPDF } = window.jspdf;
+
+let name = document.getElementById("searchName").value.trim().toLowerCase();
+
+let student = students.find(
+s => s.name.toLowerCase() === name
 );
 
 if(!student){
@@ -319,31 +323,57 @@ alert("Student Not Found");
 return;
 }
 
-let content="IMAM GAZZALI MODEL ACADEMY\n";
-content+="UNIT TEST - JUNE\n\n";
-content+="Name: "+student.name+"\n";
-content+="Class: "+student.class+"\n\n";
+const doc = new jsPDF();
+
+doc.setFontSize(18);
+doc.text("IMAM GAZZALI MODEL ACADEMY", 105, 20, {align:"center"});
+
+doc.setFontSize(14);
+doc.text("UNIT TEST - JUNE", 105, 30, {align:"center"});
+
+doc.line(20,35,190,35);
+
+doc.setFontSize(12);
+doc.text("Student Name : " + student.name,20,50);
+doc.text("Class : " + student.class,20,60);
 
 if(student.absent){
-content+="STATUS: ABSENT";
+
+doc.text("STATUS : ABSENT",20,80);
+doc.text("GRADE : ABSENT",20,90);
+
 }else{
 
-let total=student.physics+student.chemistry+student.biology;
-let max=student.class==="Std 9" ? 60 : 30;
+let total =
+student.physics +
+student.chemistry +
+student.biology;
 
-content+="Physics: "+student.physics+"\n";
-content+="Chemistry: "+student.chemistry+"\n";
-content+="Biology: "+student.biology+"\n";
-content+="Total: "+total+" / "+max+"\n";
-content+="Grade: "+grade(total,max);
+let max =
+student.class==="Std 9" ? 60 : 30;
+
+let grd = grade(total,max);
+
+doc.rect(20,75,170,40);
+
+doc.text("Physics",25,85);
+doc.text(String(student.physics),160,85);
+
+doc.text("Chemistry",25,95);
+doc.text(String(student.chemistry),160,95);
+
+doc.text("Biology",25,105);
+doc.text(String(student.biology),160,105);
+
+doc.text("Total",25,125);
+doc.text(total + " / " + max,160,125);
+
+doc.text("Grade",25,135);
+doc.text(grd,160,135);
 }
 
-let blob=new Blob([content],{type:"text/plain"});
-let a=document.createElement("a");
-a.href=URL.createObjectURL(blob);
-a.download=student.name+"_Report.txt";
-a.click();
-    }
+doc.save(student.name + "_Marksheet.pdf");
+}
 
 </script>
 
