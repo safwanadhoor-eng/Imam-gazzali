@@ -254,14 +254,12 @@ if(percent>=70) return "B+";
 if(percent>=60) return "B";
 return "C";
 }
-
 function searchStudent(){
+
+let name=document.getElementById("searchName").value.trim().toLowerCase();
+
 let student=students.find(
 s=>s.name.toLowerCase().includes(name)
-);
-
-let student=students.find(
-s=>s.name.toLowerCase()===name
 );
 
 let result=document.getElementById("result");
@@ -277,7 +275,6 @@ result.innerHTML=`
 <h3>${student.name}</h3>
 <p><b>Class:</b> ${student.class}</p>
 <p><b>Status:</b> ABSENT</p>
-<p><b>Grade:</b> ABSENT</p>
 </div>
 `;
 return;
@@ -296,13 +293,12 @@ let grd=grade(total,max);
 result.innerHTML=`
 <div class="result">
 <h3>${student.name}</h3>
-
 <table>
 <tr><td><b>Class</b></td><td>${student.class}</td></tr>
 <tr><td><b>Physics</b></td><td>${student.physics}</td></tr>
 <tr><td><b>Chemistry</b></td><td>${student.chemistry}</td></tr>
 <tr><td><b>Biology</b></td><td>${student.biology}</td></tr>
-<tr><td><b>Total</b></td><td>${total} / ${max}</td></tr>
+<tr><td><b>Total</b></td><td>${total}/${max}</td></tr>
 <tr><td><b>Grade</b></td><td>${grd}</td></tr>
 </table>
 </div>
