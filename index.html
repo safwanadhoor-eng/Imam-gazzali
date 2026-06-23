@@ -257,7 +257,9 @@ return "C";
 
 function searchStudent(){
 
-let name=document.getElementById("searchName").value.trim().toLowerCase();
+let student = students.find(
+s => s.name.toLowerCase().includes(name)
+);
 
 let student=students.find(
 s=>s.name.toLowerCase()===name
