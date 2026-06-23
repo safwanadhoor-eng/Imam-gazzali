@@ -87,6 +87,7 @@ td{
 <input type="text" id="searchName" placeholder="Enter Student Name">
 
 <button onclick="searchStudent()">Search</button>
+    <button onclick="downloadPDF()">Download PDF Report</button>
 
 <div id="result"></div>
 
@@ -305,6 +306,44 @@ result.innerHTML=`
 </div>
 `;
 }
+    function downloadPDF() {
+
+let name=document.getElementById("searchName").value.trim().toLowerCase();
+
+let student=students.find(
+s=>s.name.toLowerCase()===name
+);
+
+if(!student){
+alert("Student Not Found");
+return;
+}
+
+let content="IMAM GAZZALI MODEL ACADEMY\n";
+content+="UNIT TEST - JUNE\n\n";
+content+="Name: "+student.name+"\n";
+content+="Class: "+student.class+"\n\n";
+
+if(student.absent){
+content+="STATUS: ABSENT";
+}else{
+
+let total=student.physics+student.chemistry+student.biology;
+let max=student.class==="Std 9" ? 60 : 30;
+
+content+="Physics: "+student.physics+"\n";
+content+="Chemistry: "+student.chemistry+"\n";
+content+="Biology: "+student.biology+"\n";
+content+="Total: "+total+" / "+max+"\n";
+content+="Grade: "+grade(total,max);
+}
+
+let blob=new Blob([content],{type:"text/plain"});
+let a=document.createElement("a");
+a.href=URL.createObjectURL(blob);
+a.download=student.name+"_Report.txt";
+a.click();
+    }
 
 </script>
 
