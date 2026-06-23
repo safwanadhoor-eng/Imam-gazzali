@@ -1,1 +1,312 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IMAM GAZZALI MODEL ACADEMY</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f6f9;
+    margin:0;
+    padding:0;
+}
+
+.container{
+    max-width:700px;
+    margin:30px auto;
+    background:#fff;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 0 10px rgba(0,0,0,.1);
+}
+
+.logo{
+    width:120px;
+    display:block;
+    margin:auto;
+}
+
+h1,h2,h3{
+    text-align:center;
+    margin:5px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin-top:15px;
+    border:1px solid #ccc;
+    border-radius:8px;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    background:#0b5ed7;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#084298;
+}
+
+.result{
+    margin-top:20px;
+    padding:15px;
+    background:#f8f9fa;
+    border-radius:10px;
+}
+
+table{
+    width:100%;
+}
+
+td{
+    padding:6px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<img src="logo.png" class="logo">
+
+<h1>IMAM GAZZALI MODEL ACADEMY</h1>
+<h3>UNIT TEST - JUNE</h3>
+<h3>Student Mark Portal</h3>
+
+<input type="text" id="searchName" placeholder="Enter Student Name">
+
+<button onclick="searchStudent()">Search</button>
+
+<div id="result"></div>
+
+</div>
+
+<script>
+
+const students = [
+
+{
+name:"Sahal MS Chooloor",
+class:"Std 9",
+physics:16,
+chemistry:16,
+biology:18
+},
+
+{
+name:"Badusha Palappetty",
+class:"Std 9",
+physics:17,
+chemistry:13,
+biology:17
+},
+
+{
+name:"Uwais Edathiruthi",
+class:"Std 9",
+physics:18,
+chemistry:17,
+biology:18
+},
+
+{
+name:"Fasil vty",
+class:"Std 9",
+physics:12,
+chemistry:16,
+biology:9
+},
+
+{
+name:"Farhan Vatanappally",
+class:"Std 9",
+physics:11,
+chemistry:16,
+biology:12
+},
+
+{
+name:"Munavvir Thalikkulam",
+class:"Std 9",
+absent:true
+},
+
+{
+name:"Ziyan Muppattithara",
+class:"Std 9",
+absent:true
+},
+
+{
+name:"Fauzan Shornur",
+class:"Std 9",
+physics:18,
+chemistry:18,
+biology:19
+},
+
+{
+name:"Sayyid Baqir Vatanappally",
+class:"Std 9",
+physics:13,
+chemistry:16,
+biology:14
+},
+
+{
+name:"Aqib Pang",
+class:"Std 9",
+physics:15,
+chemistry:15,
+biology:13
+},
+
+{
+name:"Sinan KM",
+class:"Std 9",
+physics:14,
+chemistry:15,
+biology:11
+},
+
+{
+name:"Abutahir Kattur",
+class:"Std 8",
+physics:7,
+chemistry:5,
+biology:9
+},
+
+{
+name:"Yaseen Enamavu",
+class:"Std 8",
+physics:8,
+chemistry:7,
+biology:8
+},
+
+{
+name:"Farhan Mullakkara",
+class:"Std 8",
+physics:7,
+chemistry:5,
+biology:9
+},
+
+{
+name:"Adnan Mattanchery",
+class:"Std 8",
+physics:9,
+chemistry:9,
+biology:8
+},
+
+{
+name:"Rashid Paravur",
+class:"Std 8",
+absent:true
+},
+
+{
+name:"Rihan Vadanappally",
+class:"Std 8",
+physics:1,
+chemistry:5,
+biology:3
+},
+
+{
+name:"Ibrahim Badusha Thoyakkavu",
+class:"Std 8",
+physics:4,
+chemistry:3,
+biology:2
+},
+
+{
+name:"Umarul Farooq Pazhayannur",
+class:"Std 8",
+absent:true
+}
+
+];
+
+function grade(total,max){
+
+let percent=(total/max)*100;
+
+if(percent>=90) return "A+";
+if(percent>=80) return "A";
+if(percent>=70) return "B+";
+if(percent>=60) return "B";
+return "C";
+}
+
+function searchStudent(){
+
+let name=document.getElementById("searchName").value.trim().toLowerCase();
+
+let student=students.find(
+s=>s.name.toLowerCase()===name
+);
+
+let result=document.getElementById("result");
+
+if(!student){
+result.innerHTML="<h3>Student Not Found</h3>";
+return;
+}
+
+if(student.absent){
+result.innerHTML=`
+<div class="result">
+<h3>${student.name}</h3>
+<p><b>Class:</b> ${student.class}</p>
+<p><b>Status:</b> ABSENT</p>
+<p><b>Grade:</b> ABSENT</p>
+</div>
+`;
+return;
+}
+
+let total=
+student.physics+
+student.chemistry+
+student.biology;
+
+let max=
+student.class==="Std 9" ? 60 : 30;
+
+let grd=grade(total,max);
+
+result.innerHTML=`
+<div class="result">
+<h3>${student.name}</h3>
+
+<table>
+<tr><td><b>Class</b></td><td>${student.class}</td></tr>
+<tr><td><b>Physics</b></td><td>${student.physics}</td></tr>
+<tr><td><b>Chemistry</b></td><td>${student.chemistry}</td></tr>
+<tr><td><b>Biology</b></td><td>${student.biology}</td></tr>
+<tr><td><b>Total</b></td><td>${total} / ${max}</td></tr>
+<tr><td><b>Grade</b></td><td>${grd}</td></tr>
+</table>
+</div>
+`;
+}
+
+</script>
+
+</body>
+</html>
