@@ -315,7 +315,7 @@ const { jsPDF } = window.jspdf;
 let name = document.getElementById("searchName").value.trim().toLowerCase();
 
 let student = students.find(
-  s => s.name.toLowerCase() === name
+  s => s.name.toLowerCase().includes(name)
 );
 
 if(!student){
