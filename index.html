@@ -254,12 +254,18 @@ if(percent>=70) return "B+";
 if(percent>=60) return "B";
 return "C";
 }
-function searchStudent(){
 
-let name=document.getElementById("searchName").value.trim().toLowerCase();
+function searchStudent() {
 
-let student=students.find(
-s=>s.name.toLowerCase().includes(name)
+let name = document.getElementById("searchName")
+    .value.trim().toLowerCase();
+
+let student = students.find(
+s => s.name.toLowerCase() === name
+);
+
+...
+}
 );
 
 let result=document.getElementById("result");
